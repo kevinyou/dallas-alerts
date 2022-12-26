@@ -8,7 +8,7 @@ npm run start
 ```
 
 Output:
-```json
+```js
 [
   {
     incident_number: '22-2508638',
