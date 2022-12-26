@@ -3,7 +3,8 @@
 ```
 nvm use
 npm install
-node main.js
+npm run build
+npm run start
 ```
 
 Output:

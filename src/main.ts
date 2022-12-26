@@ -1,9 +1,9 @@
-const { readFile } = require('fs/promises');
-const axios = require('axios');
+import axios from 'axios';
+import { readFile } from 'fs/promises';
 
 const SECRET_PATH = './dallas_opendata_token';
 
-const getData = async (appToken) => {
+const getData = async (appToken: string) => {
     const url = `https://www.dallasopendata.com/resource/9fxf-t2tr.json?$$app_token=${appToken}`;
     const response = await axios.get(url);
     return response.data;
