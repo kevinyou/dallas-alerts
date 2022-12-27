@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { readFile } from 'fs/promises';
 import { formatIncidentMessage, getActiveIncidents } from './dallasPDData';
 
