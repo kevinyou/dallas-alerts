@@ -1,5 +1,4 @@
 *.swp
 node_modules/
-dallas_opendata_token
 dist/
 *.code-workspace
