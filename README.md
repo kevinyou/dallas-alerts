@@ -24,3 +24,14 @@ DALLAS_ALERTS_OPENDATA_TOKEN=${your_opendata_token} \
   DALLAS_ALERTS_MASTODON_TOKEN=${your_mastodon_token} \
   npm run start
 ```
+
+## Building and Packaging for AWS Lambda
+Not the most automated way:
+```
+npm run build
+cp dist function
+cp package.json function/package.json
+cd function
+npm install --omit=dev
+zip -r function.zip .
+```
