@@ -4,7 +4,7 @@
 This bot retrieves active police incidents from [dallasopendata](https://www.dallasopendata.com/Public-Safety/Dallas-Police-Active-Calls/9fxf-t2tr) and posts all active incidents to a Mastodon instance.
 
 ### Hosting
-Alerts available at [https://botsin.space/@unofficial_dpdincidents](@unofficial_dpdincidents@botsin.space).
+Alerts available at [@unofficial_dpdincidents@botsin.space](https://botsin.space/@unofficial_dpdincidents).
 
 This bot runs on AWS Lambda every 1 minute.
 
