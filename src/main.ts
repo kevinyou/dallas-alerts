@@ -1,6 +1,6 @@
 import { formatIncidentMessage, getActiveIncidents } from './dallasPDData';
 import { publishStatus } from './mastodonApiClient';
-import { cleanEnv, str } from 'envalid';
+import { cleanEnv, str, url } from 'envalid';
 import { createClient } from 'redis';
 
 
@@ -11,9 +11,21 @@ export const main = async () => {
     const env = cleanEnv(process.env, {
         DALLAS_ALERTS_OPENDATA_TOKEN: str(),
         DALLAS_ALERTS_MASTODON_TOKEN: str(),
+        REDIS_URL: url({
+            default: 'redis://localhost:6379'
+        }),
+        REDIS_USERNAME: str({
+            default: undefined
+        }),
+        REDIS_PASSWORD: str({
+            default: undefined
+        }),
     });
 
     const client = createClient({
+        url: env.REDIS_URL,
+        username: env.REDIS_USERNAME,
+        password: env.REDIS_PASSWORD,
         // defaults to redis://localhost:6379
     });
 
