@@ -16,6 +16,8 @@ To get OpenData secrets, see [Socrata: Generating an App Token](https://support.
 
 To get Mastodon secrets, log in to your Mastodon account and go to Settings -> Development.
 
+Run Redis at `localhost:6379`.
+
 ```
 nvm use
 npm install
