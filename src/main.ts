@@ -26,7 +26,6 @@ export const main = async () => {
         url: env.REDIS_URL,
         username: env.REDIS_USERNAME,
         password: env.REDIS_PASSWORD,
-        // defaults to redis://localhost:6379
     });
 
     const incidents = await getActiveIncidents(env.DALLAS_ALERTS_OPENDATA_TOKEN);
