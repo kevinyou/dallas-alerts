@@ -6,17 +6,19 @@ This bot retrieves active police incidents from [dallasopendata](https://www.dal
 ### Hosting
 Alerts available at [@unofficial_dpdincidents@botsin.space](https://botsin.space/@unofficial_dpdincidents).
 
-This bot runs on AWS Lambda every 1 minute.
+This bot runs on [AWS Lambda](https://aws.amazon.com/lambda/) every 1 minute.
+
+Redis instance hosted by [Redis Enterprise](https://redis.com/redis-enterprise-cloud/overview/).
 
 ### Deduplication
-Currently, incidents are deduplicated via Mastodon's [Idempotency-Key header](https://docs.joinmastodon.org/methods/statuses/#headers).
+Making a request to Mastodon for a duplicate incident is deduplicated first to by using a Redis cache, and then duplicate requests to Mastodon are deduplicated via Mastodon's [Idempotency-Key header](https://docs.joinmastodon.org/methods/statuses/#headers).
 
 ## Development
 To get OpenData secrets, see [Socrata: Generating an App Token](https://support.socrata.com/hc/en-us/articles/210138558-Generating-an-App-Token).
 
 To get Mastodon secrets, log in to your Mastodon account and go to Settings -> Development.
 
-Run Redis at `localhost:6379`.
+Run Redis locally at `localhost:6379`, or provide remote Redis location via the `REDIS_(URL|USERNAME|PASSWORD)` environment variables.
 
 ```
 nvm use
@@ -30,8 +32,9 @@ DALLAS_ALERTS_OPENDATA_TOKEN=${your_opendata_token} \
 ## Building and Packaging for AWS Lambda
 Not the most automated way:
 ```
+rm -rf function
 npm run build
-cp dist function
+cp -R dist function
 cp package.json function/package.json
 cd function
 npm install --omit=dev
