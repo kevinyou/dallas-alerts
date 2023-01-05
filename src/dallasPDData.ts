@@ -14,6 +14,7 @@ type ActiveIncident = {
     block: string;
     location: string;
     beat: string;
+    // https://dallaspolice.net/abouts/maps
     reporting_area: string;
     status: string;
 }
