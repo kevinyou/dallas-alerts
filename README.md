@@ -6,7 +6,7 @@ This bot retrieves active police incidents from [dallasopendata](https://www.dal
 ### Hosting
 Alerts available at [@unofficial_dpdincidents@botsin.space](https://botsin.space/@unofficial_dpdincidents).
 
-This bot runs on [AWS Lambda](https://aws.amazon.com/lambda/) every 1 minute.
+This bot runs on [AWS Lambda](https://aws.amazon.com/lambda/) every 2 minutes.
 
 Redis instance hosted by [Redis Enterprise](https://redis.com/redis-enterprise-cloud/overview/).
 
