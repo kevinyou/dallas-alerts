@@ -4,7 +4,7 @@
 This bot retrieves active police incidents from [dallasopendata](https://www.dallasopendata.com/Public-Safety/Dallas-Police-Active-Calls/9fxf-t2tr) and posts all active incidents to a Bluesky account.
 
 ### Hosting
-Alerts available at [@unofficial_dpdincidents@botsin.space](https://bsky.app/profile/dallas-alerts.bsky.social).
+Alerts available at [@dallas-alerts.bsky.social](https://bsky.app/profile/dallas-alerts.bsky.social).
 
 This bot runs on [AWS Lambda](https://aws.amazon.com/lambda/) every 2 minutes.
 
