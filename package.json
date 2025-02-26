@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@atproto/api": "^0.14.7",
     "axios": "^1.2.1",
     "date-fns": "^2.29.3",
     "envalid": "^7.3.1",
