@@ -18,7 +18,7 @@ To get OpenData secrets, see [Socrata: Generating an App Token](https://support.
 
 Run Redis locally at `localhost:6379`, or provide remote Redis location via the `REDIS_(URL|USERNAME|PASSWORD)` environment variables.
 
-```
+```sh
 nvm use
 npm install
 npm run build
@@ -29,13 +29,8 @@ DALLAS_ALERTS_OPENDATA_TOKEN=${your_opendata_token} \
 ```
 
 ## Building and Packaging for AWS Lambda
+```sh
+./create_zip.sh
+```
+Then upload to aWS Lambda manually
 Not the most automated way:
-```
-rm -rf function
-npm run build
-cp -R dist function
-cp package.json function/package.json
-cd function
-npm install --omit=dev
-zip -r function.zip .
-```
