@@ -108,3 +108,8 @@ export const formatDivisionTag = (incident: ActiveIncident) => {
             return prefix + 'x';
     }
 }
+
+export const formatBeatTag = (incident: ActiveIncident) => {
+    const prefix = 'dpdi-s-';
+    return prefix + incident.beat;
+}
