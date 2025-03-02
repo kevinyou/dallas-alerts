@@ -29,14 +29,10 @@ export const main = async () => {
         password: env.REDIS_PASSWORD,
     });
 
+    let hasLoggedIn = false;
     const agent = new BskyAgent({
         service: 'https://bsky.social'
     })
-    await agent.login({
-        identifier: env.DALLAS_ALERTS_BLUESKY_IDENTIFIER,
-        password: env.DALLAS_ALERTS_BLUESKY_PASSWORD,
-    })
-
 
     const incidents = await getActiveIncidents(env.DALLAS_ALERTS_OPENDATA_TOKEN);
     let numPublished = 0;
@@ -50,12 +46,21 @@ export const main = async () => {
                 continue;
             }
 
+            if (!hasLoggedIn) {
+                await agent.login({
+                    identifier: env.DALLAS_ALERTS_BLUESKY_IDENTIFIER,
+                    password: env.DALLAS_ALERTS_BLUESKY_PASSWORD,
+                })
+                hasLoggedIn = true;
+            }
+
             const message = formatIncidentMessage(incident);
+            const tags = [formatDivisionTag(incident), formatBeatTag(incident)];
             try {
                 await agent.post({
-                    text: message,
+                    text: `${message} ${tags.join(' ')}`,
                     createdAt: new Date().toISOString(),
-                    tags: [formatDivisionTag(incident), formatBeatTag(incident)],
+                    tags,
                 });
                 console.log(`Successfully published incident ${incident.incident_number}`);
                 numPublished++;

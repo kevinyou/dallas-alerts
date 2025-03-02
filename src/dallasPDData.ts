@@ -87,7 +87,7 @@ const formatIncidentSeattleStyle = (incident: ActiveIncident) => {
 }
 
 export const formatDivisionTag = (incident: ActiveIncident) => {
-    const prefix = '#dpdi-d-';
+    const prefix = '#dpdi-div-';
     switch (incident.division) {
         case 'Central':
             return prefix + 'c';
@@ -110,6 +110,6 @@ export const formatDivisionTag = (incident: ActiveIncident) => {
 }
 
 export const formatBeatTag = (incident: ActiveIncident) => {
-    const prefix = '#dpdi-s-';
+    const prefix = '#dpdi-beat-';
     return prefix + incident.beat;
 }
