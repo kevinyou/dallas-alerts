@@ -1,4 +1,4 @@
-import { formatIncidentMessage, getActiveIncidents } from './dallasPDData';
+import { formatDivisionTag, formatIncidentMessage, getActiveIncidents } from './dallasPDData';
 import { cleanEnv, str, url } from 'envalid';
 import { createClient } from 'redis';
 import { BskyAgent } from '@atproto/api'
@@ -51,10 +51,12 @@ export const main = async () => {
             }
 
             const message = formatIncidentMessage(incident);
+            const tag = formatDivisionTag(incident);
             try {
                 await agent.post({
                     text: message,
                     createdAt: new Date().toISOString(),
+                    tags: [tag],
                 });
                 console.log(`Successfully published incident ${incident.incident_number}`);
                 numPublished++;

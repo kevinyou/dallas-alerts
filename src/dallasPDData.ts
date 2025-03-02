@@ -85,3 +85,26 @@ const formatIncidentSeattleStyle = (incident: ActiveIncident) => {
     const message = `${incident.division} Division, Beat: ${incident.beat}, ${incident.nature_of_call} at ${address.toLocaleUpperCase()} reported on ${datetimeString}, Incident# ${incident.incident_number}`
     return message;
 }
+
+export const formatDivisionTag = (incident: ActiveIncident) => {
+    const prefix = 'dpdi-';
+    switch (incident.division) {
+        case 'Central':
+            return prefix + 'c';
+        case 'Northeast':
+            return prefix + 'ne';
+        case 'Southeast':
+            return prefix + 'se';
+        case 'Southwest':
+            return prefix + 'sw';
+        case 'Northwest':
+            return prefix + 'nw';
+        case 'North Central':
+            return prefix + 'nc';
+        case 'South Central':
+            return prefix + 'sc';
+        default:
+            console.log(`Unexpected division ${incident}, falling back to x`);
+            return prefix + 'x';
+    }
+}
