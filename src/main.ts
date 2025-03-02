@@ -1,7 +1,7 @@
 import { formatBeatTag, formatDivisionTag, formatIncidentMessage, getActiveIncidents } from './dallasPDData';
 import { cleanEnv, str, url } from 'envalid';
 import { createClient } from 'redis';
-import { BskyAgent } from '@atproto/api'
+import { AtpAgent, RichText } from '@atproto/api'
 
 const CACHE_EXPIRATION_SECONDS = 60 * 15; // 15 minutes
 // TODO: Use a library like `envalid` for environment variable type safety, instead of casting to string
@@ -30,7 +30,7 @@ export const main = async () => {
     });
 
     let hasLoggedIn = false;
-    const agent = new BskyAgent({
+    const agent = new AtpAgent({
         service: 'https://bsky.social'
     })
 
@@ -57,11 +57,17 @@ export const main = async () => {
             const message = formatIncidentMessage(incident);
             const tags = [formatDivisionTag(incident), formatBeatTag(incident)];
             try {
+                const rt = new RichText({
+                    text: [message, ...tags].join(' '),
+                })
+                await rt.detectFacets(agent);
+
                 await agent.post({
-                    text: `${message} ${tags.join(' ')}`,
+                    text: rt.text,
+                    facets: rt.facets,
                     createdAt: new Date().toISOString(),
-                    tags,
                 });
+
                 console.log(`Successfully published incident ${incident.incident_number}`);
                 numPublished++;
 
