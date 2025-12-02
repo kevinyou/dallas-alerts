@@ -1,7 +1,7 @@
 import { formatBeatTag, formatDivisionTag, formatIncidentMessage, getActiveIncidents } from './dallasPDData';
 import { cleanEnv, str, url } from 'envalid';
 import { createClient } from 'redis';
-import { BskyAgent } from '@atproto/api'
+import { AtpAgent, RichText } from '@atproto/api'
 
 const CACHE_EXPIRATION_SECONDS = 60 * 15; // 15 minutes
 // TODO: Use a library like `envalid` for environment variable type safety, instead of casting to string
@@ -29,14 +29,10 @@ export const main = async () => {
         password: env.REDIS_PASSWORD,
     });
 
-    const agent = new BskyAgent({
+    let hasLoggedIn = false;
+    const agent = new AtpAgent({
         service: 'https://bsky.social'
     })
-    await agent.login({
-        identifier: env.DALLAS_ALERTS_BLUESKY_IDENTIFIER,
-        password: env.DALLAS_ALERTS_BLUESKY_PASSWORD,
-    })
-
 
     const incidents = await getActiveIncidents(env.DALLAS_ALERTS_OPENDATA_TOKEN);
     let numPublished = 0;
@@ -50,13 +46,28 @@ export const main = async () => {
                 continue;
             }
 
+            if (!hasLoggedIn) {
+                await agent.login({
+                    identifier: env.DALLAS_ALERTS_BLUESKY_IDENTIFIER,
+                    password: env.DALLAS_ALERTS_BLUESKY_PASSWORD,
+                })
+                hasLoggedIn = true;
+            }
+
             const message = formatIncidentMessage(incident);
+            const tags = [formatDivisionTag(incident), formatBeatTag(incident)];
             try {
+                const rt = new RichText({
+                    text: [message, ...tags].join(' '),
+                })
+                await rt.detectFacets(agent);
+
                 await agent.post({
-                    text: message,
+                    text: rt.text,
+                    facets: rt.facets,
                     createdAt: new Date().toISOString(),
-                    tags: [formatDivisionTag(incident), formatBeatTag(incident)],
                 });
+
                 console.log(`Successfully published incident ${incident.incident_number}`);
                 numPublished++;
 
